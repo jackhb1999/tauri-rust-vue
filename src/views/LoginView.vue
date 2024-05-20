@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs,ref} from 'vue'
+import {defineComponent, reactive, toRefs, ref} from 'vue'
 import {LoginData} from "../type/login.ts";
 import type {FormInstance, FormRules} from 'element-plus'
 import {login} from '../api/tpi.ts'
@@ -57,12 +57,12 @@ export default defineComponent({
       formEl.validate((valid) => {
         if (valid) {
           console.log(57)
-         login(data.ruleForm).then(res =>{
-           console.log(58,res)
-           localStorage.setItem('token',res)
-           // 跳转页面
-           router.push('/home')
-         })
+          login(data.ruleForm).then(res => {
+            console.log(58, res)
+            localStorage.setItem('token', res)
+            // 跳转页面
+            router.push('/home')
+          })
         } else {
           console.log('error submit!')
         }
@@ -74,7 +74,7 @@ export default defineComponent({
       data.ruleForm.username = ""
       data.ruleForm.password = ""
     }
-    return {...toRefs(data), rules,resetForm,ruleFormRef,submitForm}
+    return {...toRefs(data), rules, resetForm, ruleFormRef, submitForm}
   },
 })
 </script>
@@ -84,8 +84,9 @@ export default defineComponent({
 .login-box {
   width: 100%;
   height: 100%;
-  background: url("../assets/bg.jpg");
-  padding: 1px;
+  background: url("../assets/bg.jpg") no-repeat center;
+  background-size: cover;
+  overflow: hidden;
   text-align: center;
 
   .login-ruleForm {
