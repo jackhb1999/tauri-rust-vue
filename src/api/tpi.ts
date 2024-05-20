@@ -11,3 +11,7 @@ async function greet(name) {
 export function login(data:LoginFormInt){
     return invoke("login",{name:data.username,pass:data.password})
 }
+
+export function getGoodsList(){
+    return invoke("getGoodsList",{})
+}

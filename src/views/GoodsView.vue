@@ -1,8 +1,14 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
+import {getGoodsList} from "../api/tpi.ts";
 
 export default defineComponent({
-  name: "GoodsView"
+  setup(){
+    getGoodsList().then(res =>{
+      console.log(8,res)
+    })
+    return {}
+  }
 })
 </script>
 
