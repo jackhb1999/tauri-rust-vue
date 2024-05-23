@@ -1,7 +1,7 @@
 <script lang="ts">
-import {computed, defineComponent, reactive, toRefs} from 'vue'
+import {computed, defineComponent, reactive, toRefs, watch} from 'vue'
 import {getGoodsList} from "../api/tpi.ts";
-import {InitData} from "../type/goods.ts";
+import {InitData, ListInt} from "../type/goods.ts";
 
 export default defineComponent({
   setup() {
@@ -23,7 +23,36 @@ export default defineComponent({
     const sizeChange = (pagesize: number) => {
       data.selectData.pagesize = pagesize
     }
-    return {...toRefs(data), currentChange, sizeChange,dataList}
+    const onSubmit = () => {
+      console.log(27, data.selectData.title)
+      console.log(28, data.selectData.introduce)
+      let arr: ListInt[] = []
+      if (data.selectData.title || data.selectData.introduce) {
+        if (data.selectData.title) {
+          arr = data.list.filter((value) => {
+            return value.title.indexOf(data.selectData.title) !== -1
+          })
+        }
+        if (data.selectData.introduce) {
+          arr = data.list.filter((value) => {
+            return value.introduce.includes(data.selectData.introduce)
+          })
+        }
+      } else {
+        arr = data.list
+      }
+      data.selectData.count = arr.length
+      data.list = arr
+    }
+    watch([() => data.selectData.title, () => data.selectData.introduce], () => {
+      if (data.selectData.title == "" && data.selectData.introduce == "") {
+        getGoodsList().then(res => {
+          data.list = res
+          data.selectData.count = res.length
+        })
+      }
+    })
+    return {...toRefs(data), currentChange, sizeChange, dataList, onSubmit}
   }
 })
 </script>
