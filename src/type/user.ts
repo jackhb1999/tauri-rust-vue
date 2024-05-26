@@ -6,25 +6,25 @@ export interface ListInt {
 }
 
 interface RoleInt {
-    role: number,
-    roleName: string
+    role_id: number,
+    role_name: string
 }
 
 interface SelectDataInt {
-    role: number,
+    role_id: number,
     role_name: string
 }
 
 interface RoleListInt {
     authority: number[]
-    roleId: number
+    role_id: number
     role_name: string
 }
 
 export class InitData {
     selectData: SelectDataInt = {
-        role: 0,
-        role_name: ""
+        role_id: 0,
+        nick_name: ""
     }
     list: ListInt[]
     roleList: RoleListInt[] = []

@@ -21,105 +21,22 @@ fn getGoodsList() -> Vec<Goods> {
         user_id: 12,
     };
     vec.push(goods1);
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
-    vec.push(Goods {
-        id: 2,
-        introduce: "什么设计模式".to_string(),
-        title: "设计模式".to_string(),
-        user_id: 13,
-    });
+    for i in 2..12 {
+        vec.push(Goods {
+            id: i,
+            introduce: "什么设计模式".to_string(),
+            title: "设计模式".to_string(),
+            user_id: 13,
+        });
+    }
     return vec;
 }
 
 #[tauri::command]
 fn getUserList() -> Vec<User> {
     let mut vec: Vec<User> = Vec::new();
-    let role = Role {
-        role: 0,
+    let role = RoleKV {
+        role_id: 0,
         role_name: "管理员".to_string(),
     };
     let mut roles = Vec::new();
@@ -138,16 +55,28 @@ fn getUserList() -> Vec<User> {
 fn getRoleList() -> Vec<Role> {
     let mut vec: Vec<Role> = Vec::new();
     let role0 = Role {
-        role: 0,
+        role_id: 0,
         role_name: "管理员".to_string(),
+        authority: Vec::from([1]),
     };
     let role1 = Role {
-        role: 1,
+        role_id: 1,
         role_name: "普通用户".to_string(),
+        authority: vec![1],
     };
     vec.push(role0);
     vec.push(role1);
+    let a = str!("123");
+    print!("a:{}", a);
     return vec;
+}
+
+
+#[macro_export]
+macro_rules! str {
+    ($($arg:tt)*) => {
+        { String::from($($arg)*)}
+    };
 }
 
 
@@ -165,14 +94,21 @@ struct User {
     id: i32,
     nick_name: String,
     user_name: String,
-    role: Vec<Role>,
+    role: Vec<RoleKV>,
 
 }
 
 #[derive(serde::Serialize)]
-struct Role {
-    role: i32,
+struct RoleKV {
+    role_id: i32,
     role_name: String,
+}
+
+#[derive(serde::Serialize)]
+struct Role {
+    role_id: i32,
+    role_name: String,
+    authority: Vec<i32>,
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

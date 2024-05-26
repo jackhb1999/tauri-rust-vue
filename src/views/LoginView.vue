@@ -25,6 +25,13 @@
         <el-button class="login_btn" @click="resetForm(ruleFormRef)">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-button
+        :type="info"
+        link
+        @click="window.location.href='https://www.cnblogs.com/nolca/p/18130689#自定义命令7步走前端-tauri-kotlin'"
+    >
+      跳转
+    </el-button>
   </div>
 </template>
 

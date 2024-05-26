@@ -37,7 +37,7 @@ export default defineComponent({
       </el-form-item>
       <el-form-item label="角色">
         <el-select
-            v-model="selectData.role"
+            v-model="selectData.role_id"
             placeholder="Select"
             size="large"
             style="width: 240px"
@@ -45,9 +45,9 @@ export default defineComponent({
           <el-option label="全部" :value="0"/>
           <el-option
               v-for="item in selectData.roleList"
-              :key="item.role"
+              :key="item.role_id"
               :label="item.role_name"
-              :value="item.value"
+              :value="item.role_id"
           />
         </el-select>
       </el-form-item>

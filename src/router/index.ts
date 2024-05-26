@@ -30,6 +30,16 @@ const routes: Array<RouteRecordRaw> = [
                 },
                 component: () => import("../views/UserView.vue")
             }
+            ,
+            {
+                path: "index",
+                name: "index",
+                meta: {
+                    isShow: true,
+                    title:"🧭导航"
+                },
+                component: () => import("../views/Index.vue")
+            }
         ]
     },
     {
