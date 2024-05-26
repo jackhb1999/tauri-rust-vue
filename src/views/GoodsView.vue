@@ -1,5 +1,5 @@
 <script lang="ts">
-import {computed, defineComponent, reactive, toRefs, watch} from 'vue'
+import {computed, defineComponent, onMounted, reactive, toRefs, watch} from 'vue'
 import {getGoodsList} from "../api/tpi.ts";
 import {InitData, ListInt} from "../type/goods.ts";
 
@@ -12,11 +12,16 @@ export default defineComponent({
             data.selectData.page * data.selectData.pagesize)
       })
     })
+  const getGoods =() =>{
     getGoodsList().then(res => {
-      console.log(8, res)
+      console.log(7, res)
       data.list = res
       data.selectData.count = res.length
     })
+  }
+  onMounted(()=>{
+    getGoods()
+  })
     const currentChange = (page: number) => {
       data.selectData.page = page
     }
@@ -46,10 +51,7 @@ export default defineComponent({
     }
     watch([() => data.selectData.title, () => data.selectData.introduce], () => {
       if (data.selectData.title == "" && data.selectData.introduce == "") {
-        getGoodsList().then(res => {
-          data.list = res
-          data.selectData.count = res.length
-        })
+        getGoods()
       }
     })
     return {...toRefs(data), currentChange, sizeChange, dataList, onSubmit}

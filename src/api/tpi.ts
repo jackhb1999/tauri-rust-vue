@@ -15,3 +15,11 @@ export function login(data:LoginFormInt){
 export function getGoodsList(){
     return invoke("getGoodsList",{})
 }
+
+export function getUserList(){
+    return invoke("getUserList",{})
+}
+
+export function getRoleList(){
+    return invoke("getRoleList",{})
+}
