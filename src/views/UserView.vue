@@ -22,6 +22,9 @@ export default defineComponent({
         data.roleList = res
       })
     }
+    const deleteRow = (row) => {
+      console.log(26,row)
+    }
     return {
       ...toRefs(data)
     }
@@ -33,7 +36,7 @@ export default defineComponent({
   <div>
     <el-form :inline="true" :model="selectData" class="demo-form-inline">
       <el-form-item label="昵称">
-        <el-input v-model="selectData.nick_name" placeholder="请输入关键字" clearable/>
+        <el-input v-model="selectData.nick_name" placeholder="请输入昵称" clearable/>
       </el-form-item>
       <el-form-item label="角色">
         <el-select
@@ -46,7 +49,7 @@ export default defineComponent({
           <el-option
               v-for="item in selectData.roleList"
               :key="item.role_id"
-              :label="item.role_name"
+              :label="item.role_name "
               :value="item.role_id"
           />
         </el-select>
@@ -62,6 +65,8 @@ export default defineComponent({
     <el-table-column prop="role" label="角色">
       <template #default="scope">
         <el-button
+            link
+            size="small" @click="deleteRow(scope)"
             v-for="item in scope.row.role">
           {{ item.role_name }}
         </el-button>

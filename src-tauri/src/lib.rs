@@ -36,7 +36,7 @@ fn getGoodsList() -> Vec<Goods> {
 fn getUserList() -> Vec<User> {
     let mut vec: Vec<User> = Vec::new();
     let role = RoleKV {
-        role_id: 0,
+        role_id: 1,
         role_name: "管理员".to_string(),
     };
     let mut roles = Vec::new();
@@ -55,12 +55,12 @@ fn getUserList() -> Vec<User> {
 fn getRoleList() -> Vec<Role> {
     let mut vec: Vec<Role> = Vec::new();
     let role0 = Role {
-        role_id: 0,
+        role_id: 1,
         role_name: "管理员".to_string(),
         authority: Vec::from([1]),
     };
     let role1 = Role {
-        role_id: 1,
+        role_id: 2,
         role_name: "普通用户".to_string(),
         authority: vec![1],
     };

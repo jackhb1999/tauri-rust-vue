@@ -25,8 +25,14 @@ export default defineComponent({
             跳转
     </el-button>
   </el-card>
+  <div class="ml-3">
+    <p class="text-sm font-medium text-gray-900">fan</p>
+    <p class="text-sm text-gray-500">jack.h.b.fan@outlook.com</p>
+  </div>
 </template>
 
 <style scoped>
+
+@import "tailwindcss";
 
 </style>

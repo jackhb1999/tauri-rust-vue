@@ -9,6 +9,8 @@ import {RouterView} from "vue-router";
 </template>
 
 <style lang="scss">
+@import "tailwindcss";
+
 *{
   padding: 0px;
   margin: 0px;
