@@ -12,7 +12,7 @@ interface RoleInt {
 
 interface SelectDataInt {
     role_id: number,
-    role_name: string
+    nick_name: string
 }
 
 interface RoleListInt {

@@ -1,7 +1,8 @@
 <script lang="ts">
-import {defineComponent, onMounted, reactive, toRefs} from 'vue'
+import {defineComponent, onMounted, reactive, toRefs, watch} from 'vue'
 import {getRoleList, getUserList} from "../api/tpi.ts";
-import {InitData} from "../type/user.ts";
+import {InitData, ListInt} from "../type/user.ts";
+
 
 export default defineComponent({
   setup() {
@@ -23,10 +24,36 @@ export default defineComponent({
       })
     }
     const deleteRow = (row) => {
-      console.log(26,row)
+      console.log(26, row)
     }
+    const onSubmit = () => {
+      console.log(29, data.selectData.role_id)
+      console.log(30, data.selectData.nick_name)
+      let arr: ListInt[] = []
+      if (data.selectData.nick_name || data.selectData.role_id) {
+        if (data.selectData.nick_name) {
+          arr = data.list.filter((value) => {
+            return value.nick_name.indexOf(data.selectData.nick_name) !== -1
+          })
+        }
+        if (data.selectData.role_id) {
+          arr = (data.selectData.nick_name ? arr : data.list)
+              .filter((value) => {
+                return value.role.find((item) => item.role_id === data.selectData.role_id)
+              })
+        }
+      } else {
+        arr = data.list
+      }
+      data.list = arr
+    }
+    watch([() => data.selectData.nick_name, () => data.selectData.role_id], () => {
+      if (data.selectData.nick_name == "" || data.selectData.role_id == 0) {
+        getUser()
+      }
+    })
     return {
-      ...toRefs(data)
+      ...toRefs(data), deleteRow, onSubmit
     }
   }
 })
@@ -47,7 +74,7 @@ export default defineComponent({
         >
           <el-option label="全部" :value="0"/>
           <el-option
-              v-for="item in selectData.roleList"
+              v-for="item in roleList"
               :key="item.role_id"
               :label="item.role_name "
               :value="item.role_id"
