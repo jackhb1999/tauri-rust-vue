@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+
 import {RouterView} from "vue-router";
 </script>
 
@@ -9,11 +8,11 @@ import {RouterView} from "vue-router";
 </template>
 
 <style lang="scss">
-@import "tailwindcss";
+
 
 *{
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
 }
 html,body,#app{
   width: 100%;

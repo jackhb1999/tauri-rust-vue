@@ -1,3 +1,6 @@
+mod vo;
+mod handle;
+
 use std::env::var;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -8,6 +11,8 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn login(name: &str, pass: &str) -> String {
+    handle::LogonHandle::handle(name, pass).expect("登录失败！");
+    // 登录
     format!("Hello, {}! You've been greeted from Rust!{}", name, pass)
 }
 
@@ -66,17 +71,8 @@ fn getRoleList() -> Vec<Role> {
     };
     vec.push(role0);
     vec.push(role1);
-    let a = str!("123");
-    print!("a:{}", a);
+
     return vec;
-}
-
-
-#[macro_export]
-macro_rules! str {
-    ($($arg:tt)*) => {
-        { String::from($($arg)*)}
-    };
 }
 
 
