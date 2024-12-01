@@ -1,5 +1,5 @@
 <script lang="ts">
-import {computed, defineComponent, onMounted, reactive, toRefs, watch} from 'vue'
+import {computed, defineComponent, onMounted, toRefs, watch} from 'vue'
 
 
 
@@ -32,7 +32,4 @@ export default defineComponent({
 </template>
 
 <style scoped>
-
-@import "tailwindcss";
-
 </style>

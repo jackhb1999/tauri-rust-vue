@@ -9,6 +9,7 @@
         label-width="80px"
         class="login-ruleForm"
     >
+      <button class="bg-purple-700">按钮</button>
       <h2>后台管理系统</h2>
       <el-form-item label="账号：" prop="username">
         <el-input v-model="ruleForm.username" autocomplete="off"/>

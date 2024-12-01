@@ -1,3 +1,5 @@
+use tauri::utils::html::parse;
+
 mod vo;
 
 
@@ -10,6 +12,7 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn login(name: &str, pass: &str) -> String {
+    println!("Logging in...{}",pass);
     handle::LogonHandle::handle(name, pass).expect("登录失败！");
     // 登录
     format!("Hello, {}! You've been greeted from Rust!{}", name, pass)

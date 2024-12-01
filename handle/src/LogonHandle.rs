@@ -9,7 +9,7 @@ pub fn handle(name: &str, pass: &str) -> anyhow::Result<()> {
         .build()
         .unwrap()
         .block_on(async move {
-            let db_url = "postgres://postgres:mima@localhost/test";
+            let db_url = "postgres://postgres:fackpg@localhost/test";
 
             let conn = Database::connect(db_url).await
                 .expect("Failed to connect to database");
@@ -27,7 +27,7 @@ pub fn handle(name: &str, pass: &str) -> anyhow::Result<()> {
 
             // 如果失败则保存入库
 
-            let user_model = entity::user::ActiveModel{
+            let user_model = user::ActiveModel{
                 username: Set(name.to_string()),
                 password: Set(pass.to_string()),
                 ..Default::default()
