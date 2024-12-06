@@ -5,12 +5,12 @@ import LoginView from '@/pages/Login.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: '/',
+        path: '/login',
         name: 'login',
         component:LoginView
     },
     {
-        path: '/home',
+        path: '/',
         name: 'home',
         component: HomeView,
         children: [
