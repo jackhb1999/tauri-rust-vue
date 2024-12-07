@@ -10,11 +10,11 @@ import {LoginData} from "@/type/login.ts";
 import {setToken} from "@/composables/auth.ts";
 import {toastByError, toastByFail, toastBySuccess} from "@/composables/util.ts";
 import {useRouter} from "vue-router";
-import {useStore} from "vuex";
+// import {useStore} from "vuex";
 
 // import router from "@/router";
 const router = useRouter()
-const store = useStore()
+// const store = useStore()
 
 const form = reactive(new LoginData())
 
