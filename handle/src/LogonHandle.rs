@@ -1,22 +1,22 @@
 use sea_orm::{Database, Set};
 use sea_orm::prelude::*;
-use serde_json::json;
+use tauri::State;
 use entity::user;
 
-pub fn handle(name: &str, pass: &str) -> anyhow::Result<()> {
-    tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-        .unwrap()
-        .block_on(async move {
-            let db_url = "postgres://postgres:fackpg@localhost/test";
 
-            let conn = Database::connect(db_url).await
-                .expect("Failed to connect to database");
+
+pub async fn handle(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> anyhow::Result<()> {
+    // tokio::runtime::Builder::new_current_thread()
+    //     .enable_all()
+    //     .build()
+    //     .unwrap()
+    //     .block_on(async move {
+            let conn = db.inner();
+            println!("获取连接");
 
             let users: Vec<entity::user::Model> = entity::user::Entity::find()
                 .filter(user::Column::Username.eq(name))
-                .all(&conn)
+                .all(conn)
                 .await?;
 
             // 如果存在返回成功
@@ -32,7 +32,7 @@ pub fn handle(name: &str, pass: &str) -> anyhow::Result<()> {
                 password: Set(pass.to_string()),
                 ..Default::default()
             };
-            if let Ok(_user) = user_model.save(&conn).await {
+            if let Ok(_user) = user_model.save(conn).await {
                 println!("Admin user created");
             } else {
                 println!("Failed to create user");
@@ -40,8 +40,16 @@ pub fn handle(name: &str, pass: &str) -> anyhow::Result<()> {
 
 
             Ok::<(), anyhow::Error>(())
-        })?;
+        // })?;
 
 
-    Ok(())
+    // Ok(())
+}
+
+
+
+pub fn change_password_handle(oldPW: &str, newPW: &str) -> anyhow::Result<()> {
+
+
+    return Ok(())
 }

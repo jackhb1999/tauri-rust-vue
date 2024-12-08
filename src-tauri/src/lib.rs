@@ -1,7 +1,8 @@
-use tauri::utils::html::parse;
+use sea_orm::DatabaseConnection;
+use tauri::State;
+
 
 mod vo;
-
 
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -11,11 +12,19 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn login(name: &str, pass: &str) -> String {
-    println!("Logging in...{}",pass);
-    handle::LogonHandle::handle(name, pass).expect("登录失败！");
+async fn login(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> Result<String,String> {
+    println!("Logging in...{}", pass);
+    println!("Logging in...{:?}", db);
+    handle::LogonHandle::handle(name, pass, db).await.expect("登录失败！");
     // 登录
-    format!("Hello, {}! You've been greeted from Rust!{}", name, pass)
+   Ok( format!("Hello, {}! You've been greeted from Rust!{}", name, pass))
+}
+
+
+#[tauri::command]
+fn updatePassword(oldPW: &str, newPW: &str) -> String {
+    handle::LogonHandle::change_password_handle(oldPW, newPW).expect("修改失败！");
+    return "修改成功！".to_string();
 }
 
 #[tauri::command]
@@ -111,9 +120,19 @@ struct Role {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
-        .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![greet,login,getGoodsList,getUserList,getRoleList])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+    tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .unwrap()
+        .block_on(async move {
+            let db = handle::ConnectionHandle::establish_connection().await.unwrap();
+            tauri::Builder::default()
+                .plugin(tauri_plugin_shell::init())
+                .manage(db)
+                .invoke_handler(tauri::generate_handler![greet,login,getGoodsList,getUserList,getRoleList])
+                .run(tauri::generate_context!())
+                .expect("error while running tauri application");
+        });
 }
+
+

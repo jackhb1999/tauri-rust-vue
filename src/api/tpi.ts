@@ -12,6 +12,10 @@ export function login(data:LoginFormInt){
     return invoke("login",{name:data.username,pass:data.password})
 }
 
+export function updatePassword(data){
+    return invoke("updatePassword",{...data})
+}
+
 export function getGoodsList(){
     return invoke("getGoodsList",{})
 }
