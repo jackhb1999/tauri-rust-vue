@@ -12,12 +12,12 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-async fn login(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> Result<String,String> {
+async fn login(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> Result<String, String> {
     println!("Logging in...{}", pass);
     println!("Logging in...{:?}", db);
     handle::LogonHandle::handle(name, pass, db).await.expect("登录失败！");
     // 登录
-   Ok( format!("Hello, {}! You've been greeted from Rust!{}", name, pass))
+    Ok(format!("Hello, {}! You've been greeted from Rust!{}", name, pass))
 }
 
 
@@ -120,19 +120,20 @@ struct Role {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-        .unwrap()
-        .block_on(async move {
-            let db = handle::ConnectionHandle::establish_connection().await.unwrap();
-            tauri::Builder::default()
-                .plugin(tauri_plugin_shell::init())
-                .manage(db)
-                .invoke_handler(tauri::generate_handler![greet,login,getGoodsList,getUserList,getRoleList])
-                .run(tauri::generate_context!())
-                .expect("error while running tauri application");
-        });
+    // tokio::runtime::Builder::new_current_thread()
+    //     .enable_all()
+    //     .build()
+    //     .unwrap()
+    //     .block_on(async move {
+    //         let db = handle::ConnectionHandle::establish_connection().await.unwrap();
+    let db = tauri::async_runtime::block_on(handle::ConnectionHandle::establish_connection()).unwrap();
+    tauri::Builder::default()
+        .plugin(tauri_plugin_shell::init())
+        .manage(db)
+        .invoke_handler(tauri::generate_handler![greet,login,getGoodsList,getUserList,getRoleList])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+    // });
 }
 
 
