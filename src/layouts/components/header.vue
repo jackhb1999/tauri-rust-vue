@@ -4,11 +4,12 @@ import {useRouter} from "vue-router";
 import {useUserInfoStore} from "@/store/userinfo.ts";
 import {useFullscreen} from '@vueuse/core'
 import {Crop, FullScreen, Lock, User} from "@element-plus/icons-vue";
-import {reactive, ref} from "vue";
-import {LoginData} from "@/type/login.ts";
+import {reactive, ref, useTemplateRef} from "vue";
+
 import type {FormInstance} from "element-plus";
-import {login} from "@/api/tpi.ts";
-import {setToken} from "@/composables/auth.ts";
+import {login, updatePassword} from "@/api/tpi.ts";
+
+import FormDrawer from '@/components/FormDrawer.vue'
 
 const {
   isFullscreen, // 是否全屏状态
@@ -38,7 +39,7 @@ function logout() {
 }
 
 // 修改密码drawer
-const drawer = ref(false)
+const formDrawer = useTemplateRef('formDrawerRef')
 
 const commandHandle = (comm: String) => {
   switch (comm) {
@@ -47,7 +48,7 @@ const commandHandle = (comm: String) => {
       break;
     case 'rePassword':
       // 修改密码操作
-      drawer.value = true
+      formDrawer.value?.open()
       break;
     default:
       break;
@@ -55,37 +56,39 @@ const commandHandle = (comm: String) => {
 }
 
 const pws = reactive({
-  oldpassword:'',
-  newpassword:'',
-  newpasswordagen:'',
+  oldpassword: '',
+  newpassword: '',
+  newpasswordagen: '',
 })
 
 const rules = {
-  username: [
-    {required: true, message: '用户名不能为空！', trigger: 'blur'},
-    {min: 3, max: 5, message: '用户名必须为3-5个字符', trigger: 'blur'},
+  oldpassword: [
+    {required: true, message: '旧密码不能为空！', trigger: 'blur'},
   ],
-  password: [{required: true, message: '请输入您的密码！', trigger: 'blur'},
-    {min: 3, max: 5, message: '密码长度为 3 到 5 个字符！', trigger: 'blur'},],
+  newpassword: [{required: true, message: '新密码不能为空！', trigger: 'blur'},
+  ],
+  newpasswordagen: [{required: true, message: '确认密码不能为空！', trigger: 'blur'},
+  ],
 }
 
 const formRef = ref<FormInstance>()
 
-const loading = ref(false)
+
 
 const onSubmit = () => {
   formRef.value?.validate((isValid) => {
     if (isValid) {
-      loading.value = true
-      login(pws).then(res => {
-        toastBySuccess('修改成功！', 1500)
+     formDrawer.value?.showLoading()
+      updatePassword(pws).then(res => {
+        toastBySuccess('修改密码成功，请重新登录', 1500)
 
-         // 跳转页面
-        router.push('/')
+        // 跳转页面
+        store.removeInfo()
+        router.push("/login")
       }).catch(err => {
         toastByFail('网络连接错误')
       }).finally(() => {
-        loading.value = false
+      formDrawer.value?.hideLoading()
       })
     } else {
       toastByError('输入有误，请检查', 1600)
@@ -125,9 +128,9 @@ const refreshHandle = () => {
     </el-tooltip>
     <div class="ml-auto flex items-center">
       <el-tooltip v-if="false"
-          effect="dark"
-          content="全屏"
-          placement="bottom"
+                  effect="dark"
+                  content="全屏"
+                  placement="bottom"
       >
         <el-icon class="icon-btn mr-1" @click="toggle">
           <FullScreen v-show="!isFullscreen"/>
@@ -152,43 +155,28 @@ const refreshHandle = () => {
     </div>
   </div>
 
-  <el-drawer v-model="drawer" title="修改密码" size="45%" :close-on-click-modal="false">
-    <el-form ref="formRef" :model="pws" :rules="rules" class="w-[250px]"
-             @keyup.enter.native="onSubmit">
-      <el-form-item prop="username">
-        <el-input v-model="pws.oldpassword" placeholder="请输入用户名">
-          <template #prefix>
-            <el-icon>
-              <User/>
-            </el-icon>
-          </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input v-model="pws.newpassword" placeholder="请输入密码" type="password" show-password> />
-          <template #prefix>
-            <el-icon>
-              <Lock/>
-            </el-icon>
-          </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input v-model="pws.newpasswordagen" placeholder="请输入密码" type="password" show-password> />
-          <template #prefix>
-            <el-icon>
-              <Lock/>
-            </el-icon>
-          </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button class="w-[250px] transition ring-indigo-500" round type="primary"
-                   @click="onSubmit" :loading="loading">登 录
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </el-drawer>
+  <!--  <el-drawer v-model="drawer" title="修改密码" size="45%" :close-on-click-modal="false">-->
+
+  <!--  </el-drawer>-->
+  <form-drawer ref="formDrawerRef" title="修改密码" destroy-on-close @submit="onSubmit">
+        <el-form ref="formRef" :model="pws" :rules="rules" class="w-[250px]"
+               label-width="80px" size="small">
+          <el-form-item prop="oldpassword" label="旧密码">
+            <el-input v-model="pws.oldpassword" placeholder="请输入旧密码">
+
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="newpassword" label="新密码">
+            <el-input v-model="pws.newpassword" placeholder="请输入新密码" type="password" show-password> />
+
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="newpasswordagen" label="确认密码">
+            <el-input v-model="pws.newpasswordagen" placeholder="请输入确认密码" type="password" show-password> />
+            </el-input>
+          </el-form-item>
+        </el-form>
+  </form-drawer>
 </template>
 
 <style scoped>

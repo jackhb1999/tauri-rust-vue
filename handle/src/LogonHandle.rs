@@ -48,8 +48,8 @@ pub async fn handle(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -
 
 
 
-pub fn change_password_handle(oldPW: &str, newPW: &str) -> anyhow::Result<()> {
-
+pub fn change_password_handle(oldPW: &str, newPW: &str,db: State<'_, DatabaseConnection>) -> anyhow::Result<()> {
+    let conn = db.inner();
 
     return Ok(())
 }

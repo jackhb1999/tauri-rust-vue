@@ -22,8 +22,8 @@ async fn login(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> Res
 
 
 #[tauri::command]
-fn updatePassword(oldPW: &str, newPW: &str) -> String {
-    handle::LogonHandle::change_password_handle(oldPW, newPW).expect("修改失败！");
+fn updatePassword(oldPW: &str, newPW: &str,db: State<'_, DatabaseConnection>) -> String {
+    handle::LogonHandle::change_password_handle(oldPW, newPW,db).expect("修改失败！");
     return "修改成功！".to_string();
 }
 
@@ -130,7 +130,8 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .manage(db)
-        .invoke_handler(tauri::generate_handler![greet,login,getGoodsList,getUserList,getRoleList])
+        .invoke_handler(tauri::generate_handler![greet,login,updatePassword,
+            getGoodsList,getUserList,getRoleList])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
     // });
