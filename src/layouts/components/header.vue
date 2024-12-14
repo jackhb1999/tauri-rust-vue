@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import {confirm, toastByError, toastByFail, toastBySuccess} from "@/composables/util.ts"
+import {confirm, toastBySuccess} from "@/composables/util.ts"
 import {useRouter} from "vue-router";
 import {useUserInfoStore} from "@/store/userinfo.ts";
 import {useFullscreen} from '@vueuse/core'
-import {Crop, FullScreen, Lock, User} from "@element-plus/icons-vue";
-import {reactive, ref, useTemplateRef} from "vue";
-
-import type {FormInstance} from "element-plus";
-import {login, updatePassword} from "@/api/tpi.ts";
+import {Crop, FullScreen,} from "@element-plus/icons-vue";
 
 import FormDrawer from '@/components/FormDrawer.vue'
+import {useRepassword} from "@/composables/useManager.ts";
 
 const {
   isFullscreen, // 是否全屏状态
   toggle
 } = useFullscreen()
+
+const {
+  formDrawer,
+  pws,
+  rules,
+  onSubmit,
+  openRePWForm
+} = useRepassword()
 
 const store = useUserInfoStore()
 const router = useRouter()
@@ -29,17 +34,13 @@ function logout() {
     // 跳转回登录页
     toastBySuccess("退出登录成功！")
     router.push("/login")
-
     // })
   }).catch(() => {
     // 取消
 
-
   })
 }
 
-// 修改密码drawer
-const formDrawer = useTemplateRef('formDrawerRef')
 
 const commandHandle = (comm: String) => {
   switch (comm) {
@@ -48,53 +49,11 @@ const commandHandle = (comm: String) => {
       break;
     case 'rePassword':
       // 修改密码操作
-      formDrawer.value?.open()
+      openRePWForm()
       break;
     default:
       break;
   }
-}
-
-const pws = reactive({
-  oldpassword: '',
-  newpassword: '',
-  newpasswordagen: '',
-})
-
-const rules = {
-  oldpassword: [
-    {required: true, message: '旧密码不能为空！', trigger: 'blur'},
-  ],
-  newpassword: [{required: true, message: '新密码不能为空！', trigger: 'blur'},
-  ],
-  newpasswordagen: [{required: true, message: '确认密码不能为空！', trigger: 'blur'},
-  ],
-}
-
-const formRef = ref<FormInstance>()
-
-
-
-const onSubmit = () => {
-  formRef.value?.validate((isValid) => {
-    if (isValid) {
-     formDrawer.value?.showLoading()
-      updatePassword(pws).then(res => {
-        toastBySuccess('修改密码成功，请重新登录', 1500)
-
-        // 跳转页面
-        store.removeInfo()
-        router.push("/login")
-      }).catch(err => {
-        toastByFail('网络连接错误')
-      }).finally(() => {
-      formDrawer.value?.hideLoading()
-      })
-    } else {
-      toastByError('输入有误，请检查', 1600)
-    }
-  })
-  console.log('submit!')
 }
 
 const refreshHandle = () => {
@@ -159,23 +118,23 @@ const refreshHandle = () => {
 
   <!--  </el-drawer>-->
   <form-drawer ref="formDrawerRef" title="修改密码" destroy-on-close @submit="onSubmit">
-        <el-form ref="formRef" :model="pws" :rules="rules" class="w-[250px]"
-               label-width="80px" size="small">
-          <el-form-item prop="oldpassword" label="旧密码">
-            <el-input v-model="pws.oldpassword" placeholder="请输入旧密码">
+    <el-form ref="formRef" :model="pws" :rules="rules" class="w-[250px]"
+             label-width="80px" size="small">
+      <el-form-item prop="oldpassword" label="旧密码">
+        <el-input v-model="pws.oldpassword" placeholder="请输入旧密码">
 
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="newpassword" label="新密码">
-            <el-input v-model="pws.newpassword" placeholder="请输入新密码" type="password" show-password> />
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="newpassword" label="新密码">
+        <el-input v-model="pws.newpassword" placeholder="请输入新密码" type="password" show-password> />
 
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="newpasswordagen" label="确认密码">
-            <el-input v-model="pws.newpasswordagen" placeholder="请输入确认密码" type="password" show-password> />
-            </el-input>
-          </el-form-item>
-        </el-form>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="newpasswordagen" label="确认密码">
+        <el-input v-model="pws.newpasswordagen" placeholder="请输入确认密码" type="password" show-password> />
+        </el-input>
+      </el-form-item>
+    </el-form>
   </form-drawer>
 </template>
 
