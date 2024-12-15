@@ -3,10 +3,11 @@ import {confirm, toastBySuccess} from "@/composables/util.ts"
 import {useRouter} from "vue-router";
 import {useUserInfoStore} from "@/store/userinfo.ts";
 import {useFullscreen} from '@vueuse/core'
-import {Crop, FullScreen,} from "@element-plus/icons-vue";
+import {Crop, Expand, FullScreen,} from "@element-plus/icons-vue";
 
 import FormDrawer from '@/components/FormDrawer.vue'
 import {useRepassword} from "@/composables/useManager.ts";
+import {useAsideWidthStore} from "@/store/asideWidth.ts";
 
 const {
   isFullscreen, // 是否全屏状态
@@ -21,15 +22,16 @@ const {
   openRePWForm
 } = useRepassword()
 
-const store = useUserInfoStore()
+const userStore = useUserInfoStore()
 const router = useRouter()
+const asideWidthStore = useAsideWidthStore()
 
 function logout() {
   confirm("是否退出登录").then(() => {
     // 确定
     // logout().finally(()=>{
     // 清除当前的用户状态
-    store.removeInfo()
+    userStore.removeInfo()
 
     // 跳转回登录页
     toastBySuccess("退出登录成功！")
@@ -59,6 +61,10 @@ const commandHandle = (comm: String) => {
 const refreshHandle = () => {
   location.reload()
 }
+
+const foldHandle = () => {
+  asideWidthStore.handleAsideWidthChange()
+}
 </script>
 
 <template>
@@ -72,8 +78,9 @@ const refreshHandle = () => {
         content="菜单折叠"
         placement="bottom"
     >
-      <el-icon class="icon-btn">
-        <Fold/>
+      <el-icon class="icon-btn" @click="foldHandle">
+        <Fold v-if="asideWidthStore.asideFold"/>
+        <Expand v-else/>
       </el-icon>
     </el-tooltip>
     <el-tooltip

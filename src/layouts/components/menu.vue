@@ -1,62 +1,94 @@
 <script setup lang="ts">
-const asideMenus=[{}]
+
+import {useRoute, useRouter} from "vue-router";
+import {useAsideWidthStore} from "@/store/asideWidth.ts";
+import {ref} from "vue";
+
+const router = useRouter();
+const asideWidthStore = useAsideWidthStore()
+const route = useRoute()
+
+const asideMenus = [{
+  "name": "后台面板",
+  "icon": "help",
+  "child": [
+    {
+      "name": "主控台",
+      "icon": "home-filled",
+      "frontpath": "/",
+    }
+  ]
+}, {
+  "name": "商城管理",
+  "icon": "shopping-bag",
+  "child": [
+    {
+      "name": "商品管理",
+      "icon": "home-filled",
+      "frontpath": "/goods/list",
+    }
+  ]
+}]
+
+const handleSelect = (path: string) => router.push(path)
+
+// 默认选中
+const defaultActive = ref(route.path)
 </script>
 
 <template>
-  <div class="menu">
-    <el-menu
-        default-active="2"
+  <div class="menu" :style="{width:asideWidthStore.asideWidth}">
+    <el-menu unique-opened
+        :default-active="defaultActive"
         class="border-0"
+        @select="handleSelect"
+        :collapse="asideWidthStore.asideFold"
+        :collapse-transition="false"
     >
-      <el-sub-menu index="1">
-        <template #title>
-          <el-icon>
-            <location/>
-          </el-icon>
-          <span>Navigator One</span>
-        </template>
-        <el-menu-item-group>
-          <template #title><span>Group One</span></template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-menu-item-group>
-        <el-sub-menu index="1-4">
-          <template #title><span>item four</span></template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
+      <template v-for="(item,index) in asideMenus" :key="index">
+        <el-sub-menu v-if="item.child && item.child.length > 0"
+                     :index="index">
+          <template #title>
+            <el-icon>
+              <component :is="item.icon"/>
+            </el-icon>
+            <span>{{ item.name }}</span>
+          </template>
+
+          <el-menu-item
+              v-for="(ite,ind) in item.child" :key="ind"
+              :index="ite.frontpath">
+            <template #title>
+              <el-icon>
+                <component :is="ite.icon"/>
+              </el-icon>
+              <span>{{ ite.name }}</span>
+            </template>
+          </el-menu-item>
         </el-sub-menu>
-      </el-sub-menu>
-      <el-menu-item index="2">
-        <el-icon>
-          <icon-menu/>
-        </el-icon>
-        <template #title>Navigator Two</template>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <el-icon>
-          <document/>
-        </el-icon>
-        <template #title>Navigator Three</template>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <el-icon>
-          <setting/>
-        </el-icon>
-        <template #title>Navigator Four</template>
-      </el-menu-item>
+        <el-menu-item v-else :index="index">
+          <el-icon>
+            <component :is="item.icon"/>
+          </el-icon>
+          <template #title>{{ item.name }}</template>
+        </el-menu-item>
+      </template>
     </el-menu>
   </div>
 </template>
 
 <style scoped>
-.menu{
+.menu {
+  transform: all 0.2s;
   width: 250px;
   top: 7vh;
   bottom: 0;
   left: 0;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   @apply shadow-md fixed bg-light-50;
+}
+.menu::-webkit-scrollbar {
+  width: 1px;
 }
 </style>

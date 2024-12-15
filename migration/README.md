@@ -2,15 +2,13 @@
 
 使用迁移工具快速开发
 
-
 ```shell
 cargo install sea-orm-cli@1.1.0
 ```
+
 ```shell
 sea-orm-cli migrate init
 ```
-
-
 
 - Generate a new migration file
     ```sh
@@ -51,3 +49,8 @@ sea-orm-cli migrate init
     ```sh
     cargo run -- status
     ```
+
+执行语句 
+```shell
+sea-orm-cli.exe migrate -u postgres://postgres:fackpg@localhost/test
+```

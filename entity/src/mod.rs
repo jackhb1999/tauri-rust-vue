@@ -2,4 +2,7 @@
 
 pub mod prelude;
 
+pub mod dept;
+pub mod menu;
+pub mod role;
 pub mod user;
