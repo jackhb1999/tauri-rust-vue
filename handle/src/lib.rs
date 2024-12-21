@@ -1,5 +1,8 @@
-pub mod LogonHandle;
+pub mod UserHandle;
 pub mod ConnectionHandle;
+mod RoleHandle;
+mod MenuHandle;
+pub mod vo;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
