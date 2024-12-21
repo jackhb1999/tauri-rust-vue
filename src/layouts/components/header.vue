@@ -106,7 +106,7 @@ const foldHandle = () => {
       <el-dropdown class="dropdown" @command="commandHandle">
     <span class="flex items-center text-light-50">
         <el-avatar class="mr-2" :size="25" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
-      未知用户名
+      {{userStore.userInfo.username}}
       <el-icon class="el-icon--right">
         <arrow-down/>
       </el-icon>

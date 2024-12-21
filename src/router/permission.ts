@@ -1,4 +1,4 @@
-import {router} from "./index.ts";
+import {addRoutes, router} from "./index.ts";
 import {getToken} from "../composables/auth.ts";
 import {hideFullLoading, showFullLoading, toastByError, toastByFail} from "../composables/util.ts";
 import {useUserInfoStore} from "../store/userinfo.ts";
@@ -21,8 +21,10 @@ router.beforeEach(async (to, from, next) => {
     //     return next({path: from.path && from.path != "/login" ? from.path : '/'})
     // }
     // 如果用户登录了，则自动获取用户信息，并保存在vuex中
+    let hasNewRoutes = false
     if (token) {
         const store = useUserInfoStore()
+        // hasNewRoutes =  addRoutes( store.userInfo.menus)
         // await store.getInfo()
     }
 
@@ -30,7 +32,7 @@ router.beforeEach(async (to, from, next) => {
     let title = (to.meta.title ? to.meta.title + "-" : "") + "rustob.com"
     document.title = title
 
-    return next()
+    return hasNewRoutes? next(to.fullPath):next()
 })
 
 

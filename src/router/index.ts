@@ -110,6 +110,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         name: 'home',
         component: Admin,
+        meta:{
+            title: "主控台",
+
+        }
     },
     {
         path: '/login',
@@ -133,7 +137,8 @@ const asyncRoutes: Array<RouteRecordRaw> = [
         name: 'home',
         component: HomeView,
         meta: {
-            title: "后台首页"
+            title: "后台首页",
+            icon: "home-filled",
         }
     },
     {
@@ -141,7 +146,8 @@ const asyncRoutes: Array<RouteRecordRaw> = [
         name: '/goods/list',
         component: GoodsList,
         meta: {
-            title: "商品管理"
+            title: "商品管理",
+            icon:"home-filled"
         }
     },
     {
@@ -149,7 +155,8 @@ const asyncRoutes: Array<RouteRecordRaw> = [
         name: '/category/list',
         component: CategoryList,
         meta: {
-            title: "分类管理"
+            title: "分类管理",
+            icon:"home-filled"
         }
     },
 ]
@@ -161,11 +168,15 @@ export const router = createRouter({
 
 // 动态添加路由的方法
 export function addRoutes(menus) {
+    // 是否有新的路由
+    let hasNewRouter = false
     const findAndRoutes = (arr: Array) => {
         arr.forEach(item => {
-            let ite = asyncRoutes.find(it => it.path == item.frontpath)
+            let ite = asyncRoutes.find(it => it.path == item.menu_path)
             if (ite && !router.hasRoute(ite.path)) {
+                console.log(175,ite)
                 router.addRoute("home", ite)
+                hasNewRouter = true
             }
             if (item.child && item.child.length > 0) {
                 findAndRoutes(item.child)
@@ -173,6 +184,8 @@ export function addRoutes(menus) {
         })
     }
     findAndRoutes(menus)
+    console.log(184,router.getRoutes())
+    return hasNewRouter
 }
 
 

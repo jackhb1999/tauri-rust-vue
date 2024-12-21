@@ -5,16 +5,15 @@ import type {FormInstance} from "element-plus";
 import {login} from "@/api/tpi.ts";
 import {LoginData} from "@/type/login.ts";
 
-
-
 import {setToken} from "@/composables/auth.ts";
 import {toastByError, toastByFail, toastBySuccess} from "@/composables/util.ts";
 import {useRouter} from "vue-router";
+import {useUserInfoStore} from "@/store/userinfo.ts";
 // import {useStore} from "vuex";
 
 // import router from "@/router";
 const router = useRouter()
-// const store = useStore()
+const store = useUserInfoStore()
 
 const form = reactive(new LoginData())
 
@@ -45,6 +44,7 @@ const onSubmit = () => {
         // getInfo().then(resp=>{
         //   store.commit('SET_USERINFO', resp)
         // })
+        store.setInfo(res)
 
         // 跳转页面
         router.push('/')

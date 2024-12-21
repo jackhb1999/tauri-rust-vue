@@ -8,27 +8,29 @@ const router = useRouter();
 const asideWidthStore = useAsideWidthStore()
 const route = useRoute()
 
-const asideMenus = [{
-  "name": "后台面板",
-  "icon": "help",
-  "child": [
-    {
-      "name": "主控台",
-      "icon": "home-filled",
-      "frontpath": "/",
-    }
-  ]
-}, {
-  "name": "商城管理",
-  "icon": "shopping-bag",
-  "child": [
-    {
-      "name": "商品管理",
-      "icon": "home-filled",
-      "frontpath": "/goods/list",
-    }
-  ]
-}]
+// const asideMenus = [{
+//   "name": "后台面板",
+//   "icon": "help",
+//   "child": [
+//     {
+//       "name": "主控台",
+//       "icon": "home-filled",
+//       "frontpath": "/",
+//     }
+//   ]
+// }, {
+//   "name": "商城管理",
+//   "icon": "shopping-bag",
+//   "child": [
+//     {
+//       "name": "商品管理",
+//       "icon": "home-filled",
+//       "frontpath": "/goods/list",
+//     }
+//   ]
+// }]
+
+const asideMenus = router.getRoutes()
 
 const handleSelect = (path: string) => router.push(path)
 
@@ -46,31 +48,31 @@ const defaultActive = ref(route.path)
         :collapse-transition="false"
     >
       <template v-for="(item,index) in asideMenus" :key="index">
-        <el-sub-menu v-if="item.child && item.child.length > 0"
+        <el-sub-menu v-if="item.children && item.children.length > 0"
                      :index="index">
           <template #title>
             <el-icon>
-              <component :is="item.icon"/>
+              <component :is="item.meta.icon"/>
             </el-icon>
-            <span>{{ item.name }}</span>
+            <span>{{ item.meta.title }}</span>
           </template>
 
           <el-menu-item
-              v-for="(ite,ind) in item.child" :key="ind"
-              :index="ite.frontpath">
+              v-for="(ite,ind) in item.children" :key="ind"
+              :index="ite.path">
             <template #title>
               <el-icon>
-                <component :is="ite.icon"/>
+                <component :is="ite.meta.icon"/>
               </el-icon>
-              <span>{{ ite.name }}</span>
+              <span>{{ ite.meta.title }}</span>
             </template>
           </el-menu-item>
         </el-sub-menu>
-        <el-menu-item v-else :index="index">
+        <el-menu-item v-else :index="item.path">
           <el-icon>
-            <component :is="item.icon"/>
+            <component :is="item.meta.icon"/>
           </el-icon>
-          <template #title>{{ item.name }}</template>
+          <template #title>{{ item.meta.title }}</template>
         </el-menu-item>
       </template>
     </el-menu>
