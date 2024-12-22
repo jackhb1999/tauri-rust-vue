@@ -46,7 +46,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Dept::DeptName).string().not_null().comment("部门名称"))
                     .col(ColumnDef::new(Dept::ParentCode).string().null().comment("父级部门"))
-                    .col(ColumnDef::new(Dept::Menus).string().not_null().comment("可见菜单"))
+                    .col(ColumnDef::new(Dept::Menus).string().null().comment("可见菜单"))
                     .to_owned(),
             )
             .await;
@@ -63,7 +63,7 @@ impl MigrationTrait for Migration {
                             .primary_key().comment("角色编号"),
                     )
                     .col(ColumnDef::new(Role::RoleName).string().not_null().comment("角色名称"))
-                    .col(ColumnDef::new(Role::Menus).string().not_null().comment("可见菜单"))
+                    .col(ColumnDef::new(Role::Menus).string().null().comment("可见菜单"))
                     .to_owned(),
             )
             .await;

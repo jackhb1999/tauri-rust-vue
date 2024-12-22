@@ -28,3 +28,4 @@ target
 */Cargo.lock
 
 Cargo.lock
+/test_cli/output.json

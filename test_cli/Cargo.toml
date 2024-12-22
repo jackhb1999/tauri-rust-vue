@@ -1,6 +1,12 @@
 [package]
 name = "test_cli"
 version = "0.1.0"
+authors = ["Jack.h.b.Fan"]
 edition = "2021"
 
 [dependencies]
+anyhow.workspace = true
+clap = { version = "4.5.23", features = ["derive"] }
+csv = "1.3.1"
+serde = { version = "1.0.216", features = ["derive"] }
+serde_json = "1.0.134"
