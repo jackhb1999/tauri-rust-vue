@@ -1,4 +1,3 @@
-
 use sea_orm::DatabaseConnection;
 use tauri::State;
 use handle::vo::UserInfo::UserInfo;
@@ -13,7 +12,7 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-async fn login(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> Result<UserInfo,()> {
+async fn login(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> Result<UserInfo, ()> {
     println!("Logging in...{}", pass);
     println!("Logging in...{:?}", db);
     let info = handle::UserHandle::login_handle(name, pass, db).await.expect("登录失败！");
@@ -24,9 +23,9 @@ async fn login(name: &str, pass: &str, db: State<'_, DatabaseConnection>) -> Res
 
 
 #[tauri::command]
-fn updatePassword(oldPW: &str, newPW: &str, db: State<'_, DatabaseConnection>) -> String {
-    handle::UserHandle::change_password_handle(oldPW, newPW, db).expect("修改失败！");
-    return "修改成功！".to_string();
+async fn updatePassword(usercode: &str, oldPW: &str, newPW: &str, db: State<'_, DatabaseConnection>) -> Result<String, ()> {
+    handle::UserHandle::change_password_handle(usercode, oldPW, newPW, db).await.expect("修改失败！");
+    Ok("修改成功！".to_string())
 }
 
 #[tauri::command]

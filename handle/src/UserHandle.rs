@@ -63,7 +63,7 @@ pub async fn login_handle(code: &str, pass: &str, db: State<'_, DatabaseConnecti
 
 pub async fn register_handle(user_vo: user::Model, db: State<'_, DatabaseConnection>) {
     let conn = db.inner();
-    // 如果失败则保存入库
+    // 保存入库
     let user_model = user::ActiveModel {
         username: Set(user_vo.username),
         password: Set(user_vo.password),
@@ -77,8 +77,20 @@ pub async fn register_handle(user_vo: user::Model, db: State<'_, DatabaseConnect
 }
 
 
-pub fn change_password_handle(oldPW: &str, newPW: &str, db: State<'_, DatabaseConnection>) -> anyhow::Result<()> {
+pub async fn change_password_handle(user_code: &str, oldPW: &str, newPW: &str, db: State<'_, DatabaseConnection>) -> anyhow::Result<()> {
     let conn = db.inner();
+    let user = entity::user::Entity::find()
+        .filter(user::Column::UserCode.eq(user_code))
+        .one(conn)
+        .await?;
 
-    return Ok(());
+    if let Some(mut user) = user {
+        if user.password == oldPW {
+            user.password = newPW.to_string();
+            // let model = user.clone();
+            // entity::user::Entity::update(model).exec(conn).await?;
+            return Ok(());
+        }
+    }
+    Ok(())
 }
