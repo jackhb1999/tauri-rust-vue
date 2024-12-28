@@ -1,5 +1,3 @@
-// use type_build::TS;
-
 use type_build::TS;
 
 pub enum ResultCode {
@@ -7,7 +5,7 @@ pub enum ResultCode {
     Success(i8),
 }
 
-#[TS(name = "result")]
+#[TS]
 pub struct ResultBody {
     code: ResultCode,
     data: String,

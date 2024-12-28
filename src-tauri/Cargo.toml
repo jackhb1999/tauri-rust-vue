@@ -13,6 +13,7 @@ crate-type = ["lib", "cdylib", "staticlib"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
+type-build = {path = "../type-build"}
 
 [dependencies]
 tauri = { version = "2", features = [] }
@@ -24,3 +25,4 @@ handle = { path = "../handle" }
 sea-orm = { version = "1.1.0"}
 log = "0.4.22"
 anyhow = {workspace = true}
+type-build = {path = "../type-build"}

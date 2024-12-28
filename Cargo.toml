@@ -1,7 +1,7 @@
 
 [workspace]
 resolver = "2"
-members = ["src-tauri","migration","entity", "handle", "web", "mio", "test_cli"]
+members = ["src-tauri","migration","entity", "handle", "web", "mio", "test_cli","type-build"]
 
 [workspace.dependencies]
 tokio = { version = "1", features = ["full"] }
