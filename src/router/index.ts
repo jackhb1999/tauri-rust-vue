@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 
 
-import LoginView from '@/App.vue'
+import LoginView from '@/pages/login.vue'
 import HomeView from '@/pages/index.vue'
 import Admin from "@/layouts/admin.vue";
 import GoodsList from '@/pages/goods/list.vue'

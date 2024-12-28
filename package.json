@@ -35,6 +35,7 @@
     "scss": "^0.2.4",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
+    "vite-plugin-vue-devtools": "^7.6.8",
     "vite-plugin-windicss": "^1.9.4",
     "vue-tsc": "^2.1.10",
     "windicss": "^3.5.6"

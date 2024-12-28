@@ -22,7 +22,7 @@ const pinia = createPinia()
 const app = createApp(App)
 // app.use(store)
 app.use(pinia)
-// app.use(router)
+app.use(router)
 app.use(ElementPlus)
 app.component('VueListTable', ListTable);
 app.component('VuePivotTable', PivotTable);

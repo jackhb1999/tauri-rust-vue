@@ -1,6 +1,7 @@
 import {defineConfig} from "vite";
 import vue from "@vitejs/plugin-vue";
 import WindiCSS from 'vite-plugin-windicss'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 import path from "path"
 
@@ -11,12 +12,12 @@ const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM);
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
 
-    resolve:{
-        alias:{
-            "@":path.resolve(__dirname,"src")
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "src")
         }
     },
-    plugins: [vue(), WindiCSS(),],
+    plugins: [vue(), WindiCSS(),vueDevTools()],
 
     // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
     //

@@ -3,7 +3,7 @@ use std::future::ready;
 use std::io::ErrorKind;
 use std::task::ready;
 use anyhow::bail;
-use sea_orm::{Database, Set};
+use sea_orm::{Database, IntoActiveModel, Set};
 use sea_orm::prelude::*;
 use tauri::async_runtime::block_on;
 use tauri::State;
@@ -84,11 +84,11 @@ pub async fn change_password_handle(user_code: &str, oldPW: &str, newPW: &str, d
         .one(conn)
         .await?;
 
-    if let Some(mut user) = user {
+    if let Some(user) = user {
         if user.password == oldPW {
-            user.password = newPW.to_string();
-            // let model = user.clone();
-            // entity::user::Entity::update(model).exec(conn).await?;
+            let mut user = user.into_active_model();
+            user.password = Set(newPW.to_string());
+            user.update(conn).await?;
             return Ok(());
         }
     }

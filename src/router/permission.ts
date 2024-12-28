@@ -1,4 +1,4 @@
-import {addRoutes, router} from "./index.ts";
+import {router} from "./index.ts";
 import {getToken} from "../composables/auth.ts";
 import {hideFullLoading, showFullLoading, toastByError, toastByFail} from "../composables/util.ts";
 import {useUserInfoStore} from "../store/userinfo.ts";
