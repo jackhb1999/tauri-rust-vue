@@ -1,4 +1,4 @@
-import {router} from "./index.ts";
+import {addRoutes, router} from "./index.ts";
 import {getToken} from "../composables/auth.ts";
 import {hideFullLoading, showFullLoading, toastByError, toastByFail} from "../composables/util.ts";
 import {useUserInfoStore} from "../store/userinfo.ts";
@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
     let hasNewRoutes = false
     if (token) {
         const store = useUserInfoStore()
-        // hasNewRoutes =  addRoutes( store.userInfo.menus)
+        hasNewRoutes =  addRoutes( store.userInfo.menus)
         // await store.getInfo()
     }
 

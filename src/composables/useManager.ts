@@ -1,5 +1,5 @@
 import {reactive, ref, useTemplateRef} from "vue";
-import type {FormInstance} from "element-plus";
+import type {FormInstance, FormRules} from "element-plus";
 import {updatePassword} from "@/api/tpi.ts";
 import {toastByError, toastByFail, toastBySuccess} from "@/composables/util.ts";
 import FormDrawer from '@/components/FormDrawer.vue'
@@ -8,7 +8,7 @@ import {useRouter} from "vue-router";
 
 
 export function useRepassword() {
-    const store = useUserInfoStore()
+    const userStore = useUserInfoStore()
     const router = useRouter()
 // 修改密码drawer
     type FormDrawerType = InstanceType<typeof FormDrawer>
@@ -19,7 +19,7 @@ export function useRepassword() {
         newpasswordagen: '',
     })
 
-    const rules = {
+    const rules = reactive<FormRules>({
         oldpassword: [
             {required: true, message: '旧密码不能为空！', trigger: 'blur'},
         ],
@@ -27,17 +27,23 @@ export function useRepassword() {
         ],
         newpasswordagen: [{required: true, message: '确认密码不能为空！', trigger: 'blur'},
         ],
-    }
+    })
     const formRef = ref<FormInstance>()
     const onSubmit = () => {
+        console.log(33, formRef.value)
         formRef.value?.validate((isValid) => {
+            console.log(34, isValid)
             if (isValid) {
                 formDrawer.value?.showLoading()
+                if(pws.newpassword!=pws.newpasswordagen){
+                    toastByFail('两次密码不一致')
+                    return
+                }
                 updatePassword(pws).then(res => {
                     toastBySuccess('修改密码成功，请重新登录', 1500)
 
                     // 跳转页面
-                    store.removeInfo()
+                    userStore.removeInfo()
                     router.push("/login")
                 }).catch(err => {
                     toastByFail('网络连接错误')
@@ -48,13 +54,16 @@ export function useRepassword() {
                 toastByError('输入有误，请检查', 1600)
             }
         })
-        console.log('submit!')
+        console.log(55,'submit!')
     }
 
-    const openRePWForm = () => formDrawer.value?.open()
+    const openRePWForm = () => {
+        formDrawer.value?.open()
+    }
     return {
         formDrawer,
         pws,
+        formRef,
         rules,
         onSubmit,
         openRePWForm

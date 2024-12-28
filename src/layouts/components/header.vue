@@ -16,6 +16,7 @@ const {
 
 const {
   formDrawer,
+  formRef,
   pws,
   rules,
   onSubmit,
@@ -127,6 +128,11 @@ const foldHandle = () => {
   <form-drawer ref="formDrawerRef" title="修改密码" destroy-on-close @submit="onSubmit">
     <el-form ref="formRef" :model="pws" :rules="rules" class="w-[250px]"
              label-width="80px" size="small">
+      <el-form-item  label="登录账号">
+        <el-input v-model="userStore.userInfo.user_code" :disabled="true">
+
+        </el-input>
+      </el-form-item>
       <el-form-item prop="oldpassword" label="旧密码">
         <el-input v-model="pws.oldpassword" placeholder="请输入旧密码">
 
