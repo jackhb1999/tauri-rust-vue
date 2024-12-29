@@ -9,3 +9,7 @@ proc-macro = true
 [dependencies]
 syn ="2"
 quote = "1"
+
+[features]
+default = ["proc_macro_span"]
+proc_macro_span = []

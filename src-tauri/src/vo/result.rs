@@ -5,9 +5,9 @@ pub enum ResultCode {
     Success(i8),
 }
 
-#[TS]
+#[TS(result)]
 pub struct ResultBody {
-    code: ResultCode,
+    // code: ResultCode,
     data: String,
 
 }
