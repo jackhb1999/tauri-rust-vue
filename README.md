@@ -24,3 +24,5 @@ https://www.zhangxinxu.com/wordpress/2018/05/live2d-web-webgl-js/
 
 // 生成实体到对应位置
 sea-orm-cli.exe generate entity -u postgres://postgres:密码@localhost/test -o entity/src
+
+

@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useAsideWidthStore} from "@/store/asideWidth.ts";
+import {onBeforeRouteUpdate, useRoute} from "vue-router";
+import {useCookies} from "@vueuse/integrations/useCookies";
+import {router} from "@/router";
 
 const asideWidthStore = useAsideWidthStore()
 
-let tabIndex = 2
-const activeTab = ref('2')
+const route = useRoute()
+const cookie = useCookies()
+
+const activeTab = ref(route.path)
 const tabList = ref([
   {
     title: '后台首页',
@@ -14,6 +19,31 @@ const tabList = ref([
 
 ])
 
+onMounted(() => {
+  if (cookie.get('tabList')) {
+    tabList.value = cookie.get('tabList')
+  }
+})
+
+
+onBeforeRouteUpdate((to, from) => {
+  activeTab.value = to.path
+
+  if (tabList.value.some(item => item.path === to.path)) {
+    return
+  }
+  tabList.value.push({
+    title: to.meta.title,
+    path: to.path
+  })
+  cookie.set('tabList', tabList.value)
+
+})
+
+const changeTab = (path) => {
+  activeTab.value = path
+  router.push(path)
+}
 
 const removeTab = (targetName: string) => {
 
@@ -26,8 +56,8 @@ const removeTab = (targetName: string) => {
         v-model="activeTab"
         type="card"
         class="demo-tabs"
-        closable
         @tab-remove="removeTab"
+        @tab-change="changeTab"
         style="min-width: 100px"
     >
       <el-tab-pane
@@ -35,6 +65,7 @@ const removeTab = (targetName: string) => {
           :key="item.path"
           :label="item.title"
           :name="item.path"
+          :closable="item.path!=='/'"
       >
 
       </el-tab-pane>
