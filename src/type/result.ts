@@ -1,0 +1,3 @@
+interface ResultBody {
+    data: String,
+}

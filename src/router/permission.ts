@@ -1,6 +1,6 @@
 import {addRoutes, router} from "./index.ts";
 import {getToken} from "../composables/auth.ts";
-import {hideFullLoading, showFullLoading, toastByError, toastByFail} from "../composables/util.ts";
+import {hideFullLoading, showFullLoading, toastByFail} from "../composables/util.ts";
 import {useUserInfoStore} from "../store/userinfo.ts";
 // 全局前置守卫
 router.beforeEach(async (to, from, next) => {
@@ -25,6 +25,7 @@ router.beforeEach(async (to, from, next) => {
     if (token) {
         const store = useUserInfoStore()
         hasNewRoutes =  addRoutes( store.userInfo.menus)
+        // hasNewRoutes = true
         // await store.getInfo()
     }
 

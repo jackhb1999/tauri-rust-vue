@@ -1,53 +1,13 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
 import {useAsideWidthStore} from "@/store/asideWidth.ts";
-import {onBeforeRouteUpdate, useRoute} from "vue-router";
-import {useCookies} from "@vueuse/integrations/useCookies";
-import {router} from "@/router";
+import {useTabList} from '@/composables/useTabList.ts'
 
 const asideWidthStore = useAsideWidthStore()
-
-const route = useRoute()
-const cookie = useCookies()
-
-const activeTab = ref(route.path)
-const tabList = ref([
-  {
-    title: '后台首页',
-    path: '/'
-  },
-
-])
-
-onMounted(() => {
-  if (cookie.get('tabList')) {
-    tabList.value = cookie.get('tabList')
-  }
-})
-
-
-onBeforeRouteUpdate((to, from) => {
-  activeTab.value = to.path
-
-  if (tabList.value.some(item => item.path === to.path)) {
-    return
-  }
-  tabList.value.push({
-    title: to.meta.title,
-    path: to.path
-  })
-  cookie.set('tabList', tabList.value)
-
-})
-
-const changeTab = (path) => {
-  activeTab.value = path
-  router.push(path)
-}
-
-const removeTab = (targetName: string) => {
-
-}
+const { activeTab,
+  tabList,
+  changeTab,
+  removeTab,
+  closeHandle} = useTabList()
 </script>
 
 <template>
@@ -71,7 +31,7 @@ const removeTab = (targetName: string) => {
       </el-tab-pane>
     </el-tabs>
     <span class="tag-btn">
- <el-dropdown>
+ <el-dropdown @command="closeHandle">
     <span class="el-dropdown-link">
       <el-icon>
         <arrow-down/>
@@ -79,11 +39,8 @@ const removeTab = (targetName: string) => {
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>Action 1</el-dropdown-item>
-        <el-dropdown-item>Action 2</el-dropdown-item>
-        <el-dropdown-item>Action 3</el-dropdown-item>
-        <el-dropdown-item disabled>Action 4</el-dropdown-item>
-        <el-dropdown-item divided>Action 5</el-dropdown-item>
+        <el-dropdown-item command="closeOther">关闭其他</el-dropdown-item>
+        <el-dropdown-item command="closeAll">全部关闭</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

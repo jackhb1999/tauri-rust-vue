@@ -4,11 +4,14 @@ import {RouterView} from "vue-router";
 </script>
 
 <template>
+  {{ $route.fullPath }}
   <RouterView />
 </template>
 
 <style lang="scss">
-
+body{
+  @apply bg-gray-100;
+}
 
 *{
   padding: 0;

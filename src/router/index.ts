@@ -3,9 +3,9 @@ import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 
 import LoginView from '@/pages/login.vue'
 import HomeView from '@/pages/index.vue'
-import Admin from "@/layouts/admin.vue";
 import GoodsList from '@/pages/goods/list.vue'
 import CategoryList from '@/pages/category/list.vue'
+import Admin from "@/layouts/admin.vue";
 
 // const routes: Array<RouteRecordRaw> = [
 //     {
@@ -107,13 +107,24 @@ import CategoryList from '@/pages/category/list.vue'
 // 默认路由，所有用户共享
 const routes: Array<RouteRecordRaw> = [
     {
-        path: '/',
-        name: 'home',
+        path: '/app',
+        name: 'admin',
         component: Admin,
         meta:{
             title: "主控台",
 
-        }
+        },
+        children: [
+            {
+                path: '/',
+                name: 'home',
+                component: HomeView,
+                meta: {
+                    title: "后台首页",
+                    icon: "home-filled",
+                }
+            },
+        ]
     },
     {
         path: '/login',
@@ -132,15 +143,15 @@ const routes: Array<RouteRecordRaw> = [
 
 // 动态路由，用于匹配菜单动态添加路由
 const asyncRoutes: Array<RouteRecordRaw> = [
-    {
-        path: '/',
-        name: 'home',
-        component: HomeView,
-        meta: {
-            title: "后台首页",
-            icon: "home-filled",
-        }
-    },
+    // {
+    //     path: '/',
+    //     name: 'home',
+    //     component: HomeView,
+    //     meta: {
+    //         title: "后台首页",
+    //         icon: "home-filled",
+    //     }
+    // },
     {
         path: '/goods/list',
         name: '/goods/list',
