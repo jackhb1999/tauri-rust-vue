@@ -112,7 +112,6 @@ const routes: Array<RouteRecordRaw> = [
         component: Admin,
         meta:{
             title: "主控台",
-
         },
         children: [
             {
@@ -181,20 +180,31 @@ export const router = createRouter({
 export function addRoutes(menus) {
     // 是否有新的路由
     let hasNewRouter = false
-    const findAndRoutes = (arr: Array) => {
-        arr.forEach(item => {
-            let ite = asyncRoutes.find(it => it.path == item.menu_path)
-            if (ite && !router.hasRoute(ite.path)) {
-                console.log(175,ite)
-                router.addRoute("home", ite)
-                hasNewRouter = true
-            }
-            if (item.child && item.child.length > 0) {
-                findAndRoutes(item.child)
-            }
-        })
-    }
-    findAndRoutes(menus)
+    // const findAndRoutes = (arr: Array) => {
+    //     arr.forEach(item => {
+    //         let ite = asyncRoutes.find(it => it.path == item.menu_path)
+    //         if (ite && !router.hasRoute(ite.path)) {
+    //             console.log(175,ite,router.getRoutes())
+    //             router.addRoute("admin", ite)
+    //             // router.getRoutes().find(it=>it.path=='/app')?.children.push(ite)
+    //             hasNewRouter = true
+    //         }
+    //         if (item.child && item.child.length > 0) {
+    //             findAndRoutes(item.child)
+    //         }
+    //     })
+    // }
+    // findAndRoutes(menus)
+    router.addRoute("admin",    {
+        path: '/goods/list',
+        name: '/goods/list',
+        component: GoodsList,
+        meta: {
+            title: "商品管理",
+            icon:"home-filled"
+        }
+    })
+    router.addRoute("admin", asyncRoutes[1])
     console.log(184,router.getRoutes())
     return hasNewRouter
 }

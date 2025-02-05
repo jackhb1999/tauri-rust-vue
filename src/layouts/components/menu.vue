@@ -31,6 +31,7 @@ const route = useRoute()
 // }]
 
 const asideMenus = router.getRoutes()
+    // .find(item => item.path === '/app')?.children
 
 const handleSelect = (path: string) => router.push(path)
 

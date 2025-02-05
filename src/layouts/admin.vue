@@ -34,24 +34,30 @@ const asideWidthStore = useAsideWidthStore()
 
 <style scoped>
 .el-aside {
-  transform: all 0.2s;
-}
-.fade-enter-from{
-  opacity: 0;
-}
-.fade-enter-to{
-  opacity: 1;
-}
-.fade-leave-from{
-  opacity: 1;
-}
-.fade-leave-to{
-  opacity: 0;
-}
-.fade-enter-active,.fade-leave-active{
   transition: all 0.2s;
 }
-.fade-enter-active{
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.2s;
+}
+
+.fade-enter-active {
   trasition-delay: 0.2s;
 }
 </style>

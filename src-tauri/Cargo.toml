@@ -26,3 +26,6 @@ sea-orm = { version = "1.1.0"}
 log = "0.4.22"
 anyhow = {workspace = true}
 type-build = {path = "../type-build"}
+
+[profile.dev]
+incremental = true
