@@ -11,6 +11,7 @@ export function toastBySuccess(message: string, duration: number = 1500) {
     })
 }
 
+
 // 失败提示
 export function toastByFail(message: string) {
     return ElNotification({

@@ -1,6 +1,6 @@
 import {reactive, ref, useTemplateRef} from "vue";
 import type {FormInstance, FormRules} from "element-plus";
-import {updatePassword} from "@/api/tpi.ts";
+import {updatePassword} from "@/ipc/tpi.ts";
 import {toastByError, toastByFail, toastBySuccess} from "@/composables/util.ts";
 import FormDrawer from '@/components/FormDrawer.vue'
 import {useUserInfoStore} from "@/store/userinfo.ts";
@@ -35,7 +35,7 @@ export function useRepassword() {
             console.log(34, isValid)
             if (isValid) {
                 formDrawer.value?.showLoading()
-                if(pws.newpassword!=pws.newpasswordagen){
+                if (pws.newpassword != pws.newpasswordagen) {
                     toastByFail('两次密码不一致')
                     return
                 }
@@ -54,7 +54,7 @@ export function useRepassword() {
                 toastByError('输入有误，请检查', 1600)
             }
         })
-        console.log(55,'submit!')
+        console.log(55, 'submit!')
     }
 
     const openRePWForm = () => {

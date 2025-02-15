@@ -2,7 +2,7 @@
 import {onMounted, reactive, ref} from 'vue'
 import {User, Lock} from '@element-plus/icons-vue'
 import type {FormInstance} from "element-plus";
-import {login} from "@/api/tpi.ts";
+import {login} from "@/ipc/tpi.ts";
 import {LoginData} from "@/type/login.ts";
 
 // 使用时需要引入插件包@visactor/vtable-editors
@@ -19,10 +19,10 @@ const listTableRef = ref();
 
 const input_editor = new VTable_editors.InputEditor();
 const date_input_editor = new VTable_editors.DateInputEditor();
-const list_editor = new VTable_editors.ListEditor({values:['nan','nv']});
+const list_editor = new VTable_editors.ListEditor({values: ['nan', 'nv']});
 VTable.register.editor('input-editor', input_editor);
 VTable.register.editor('date-input-editor', date_input_editor);
-VTable.register.editor('list-editor',list_editor);
+VTable.register.editor('list-editor', list_editor);
 
 function generateRandomString(length) {
   let result = '';

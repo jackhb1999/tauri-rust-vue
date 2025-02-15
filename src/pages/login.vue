@@ -2,16 +2,14 @@
 import {reactive, ref} from 'vue'
 import {User, Lock} from '@element-plus/icons-vue'
 import type {FormInstance} from "element-plus";
-import {login} from "@/api/tpi.ts";
+import {login} from "@/ipc/tpi.ts";
 import {LoginData} from "@/type/login.ts";
 
 import {setToken} from "@/composables/auth.ts";
 import {toastByError, toastByFail, toastBySuccess} from "@/composables/util.ts";
 import {useRouter} from "vue-router";
 import {useUserInfoStore} from "@/store/userinfo.ts";
-// import {useStore} from "vuex";
 
-// import router from "@/router";
 const router = useRouter()
 const store = useUserInfoStore()
 
@@ -77,7 +75,7 @@ const onSubmit = () => {
         <span class="h-[1px] w-16 bg-gray-200"></span>
       </div>
       <el-form ref="formRef" :model="form" :rules="rules" class="w-[250px]"
-      @keyup.enter.native="onSubmit">
+               @keyup.enter.native="onSubmit">
         <el-form-item prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名">
             <template #prefix>
@@ -88,7 +86,7 @@ const onSubmit = () => {
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="form.password" placeholder="请输入密码" type="password" show-password> />
+          <el-input v-model="form.password" placeholder="请输入密码" type="password" show-password>
             <template #prefix>
               <el-icon>
                 <Lock/>

@@ -1,6 +1,6 @@
 <script lang="ts">
 import {computed, defineComponent, onMounted, reactive, toRefs, watch} from 'vue'
-import {getGoodsList} from "../api/tpi.ts";
+import {getGoodsList} from "../ipc/tpi.ts";
 import {InitData, ListInt} from "../type/goods.ts";
 
 export default defineComponent({
@@ -12,16 +12,16 @@ export default defineComponent({
             data.selectData.page * data.selectData.pagesize)
       })
     })
-  const getGoods =() =>{
-    getGoodsList().then(res => {
-      console.log(7, res)
-      data.list = res
-      data.selectData.count = res.length
+    const getGoods = () => {
+      getGoodsList().then(res => {
+        console.log(7, res)
+        data.list = res
+        data.selectData.count = res.length
+      })
+    }
+    onMounted(() => {
+      getGoods()
     })
-  }
-  onMounted(()=>{
-    getGoods()
-  })
     const currentChange = (page: number) => {
       data.selectData.page = page
     }

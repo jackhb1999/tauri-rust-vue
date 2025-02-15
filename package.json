@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build:test": "vue-tsc --noEmit && vite build --mode test",
+    "build:pro": "vue-tsc --noEmit && vite build --mode production",
     "preview": "vite preview",
     "tauri": "tauri dev"
   },
@@ -26,8 +28,7 @@
     "pinia": "^2.3.0",
     "universal-cookie": "^7.2.2",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",

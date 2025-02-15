@@ -40,7 +40,7 @@
 import {defineComponent, reactive, toRefs, ref} from 'vue'
 import {LoginData} from "../type/login.ts";
 import type {FormInstance, FormRules} from 'element-plus'
-import {login} from '../api/tpi.ts'
+import {login} from '../ipc/tpi.ts'
 import {useRouter} from "vue-router";
 
 

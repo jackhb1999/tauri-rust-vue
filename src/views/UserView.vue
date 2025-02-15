@@ -1,6 +1,6 @@
 <script lang="ts">
 import {defineComponent, onMounted, reactive, toRefs, watch} from 'vue'
-import {getRoleList, getUserList} from "../api/tpi.ts";
+import {getRoleList, getUserList} from "../ipc/tpi.ts";
 import {InitData, ListInt} from "../type/user.ts";
 
 
