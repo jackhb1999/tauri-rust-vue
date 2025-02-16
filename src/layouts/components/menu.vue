@@ -3,79 +3,67 @@
 import {useRoute, useRouter} from "vue-router";
 import {useAsideWidthStore} from "@/store/asideWidth.ts";
 import {ref} from "vue";
+import MenuItem from "@/layouts/components/menu/index.vue";
 
 const router = useRouter();
 const asideWidthStore = useAsideWidthStore()
 const route = useRoute()
 
-// const asideMenus = [{
-//   "name": "后台面板",
-//   "icon": "help",
-//   "child": [
-//     {
-//       "name": "主控台",
-//       "icon": "home-filled",
-//       "frontpath": "/",
-//     }
-//   ]
-// }, {
-//   "name": "商城管理",
-//   "icon": "shopping-bag",
-//   "child": [
-//     {
-//       "name": "商品管理",
-//       "icon": "home-filled",
-//       "frontpath": "/goods/list",
-//     }
-//   ]
-// }]
-
 const asideMenus = router.getRoutes()
-    // .find(item => item.path === '/app')?.children
+// .find(item => item.path === '/app')?.children
 
 const handleSelect = (path: string) => router.push(path)
 
 // 默认选中
 const defaultActive = ref(route.path)
+
+
 </script>
 
+<script lang="ts">
+export default {
+  name: "Menu",
+}
+</script>
 <template>
   <div class="menu" :style="{width:asideWidthStore.asideWidth}">
     <el-menu unique-opened
-        :default-active="defaultActive"
-        class="border-0"
-        @select="handleSelect"
-        :collapse="asideWidthStore.asideFold"
-        :collapse-transition="false"
+             :default-active="defaultActive"
+             class="border-0"
+             @select="handleSelect"
+             :collapse="asideWidthStore.asideFold"
+             :collapse-transition="false"
     >
-      <template v-for="(item,index) in asideMenus" :key="index">
-        <el-sub-menu v-if="item.children && item.children.length > 0"
-                     :index="index">
-          <template #title>
-            <el-icon>
-              <component :is="item.meta.icon"/>
-            </el-icon>
-            <span>{{ item.meta.title }}</span>
-          </template>
+      <MenuItem :menuList="asideMenus"/>
+      <!--      <template v-for="(item,index) in asideMenus" :key="index">-->
 
-          <el-menu-item
-              v-for="(ite,ind) in item.children" :key="ind"
-              :index="ite.path">
-            <template #title>
-              <el-icon>
-                <component :is="ite.meta.icon"/>
-              </el-icon>
-              <span>{{ ite.meta.title }}</span>
-            </template>
-          </el-menu-item>
-        </el-sub-menu>
-        <el-menu-item v-else :index="item.path">
-          <el-icon>
-            <component :is="item.meta.icon"/>
-          </el-icon>
-          <template #title>{{ item.meta.title }}</template>
-        </el-menu-item>
-      </template>
+      <!--        <el-sub-menu v-if="item.children && item.children.length > 0"-->
+      <!--                     :index="index">-->
+      <!--          <template #title>-->
+      <!--            <el-icon>-->
+      <!--              <component :is="item.meta.icon"/>-->
+      <!--            </el-icon>-->
+      <!--            <span>{{ item.meta.title }}</span>-->
+      <!--          </template>-->
+      <!--          <MenuItem :menuList="item.children"/>-->
+      <!--          &lt;!&ndash;          <el-menu-item&ndash;&gt;-->
+      <!--          &lt;!&ndash;              v-for="(ite,ind) in item.children" :key="ind"&ndash;&gt;-->
+      <!--          &lt;!&ndash;              :index="ite.path">&ndash;&gt;-->
+      <!--          &lt;!&ndash;            <template #title>&ndash;&gt;-->
+      <!--          &lt;!&ndash;              <el-icon>&ndash;&gt;-->
+      <!--          &lt;!&ndash;                <component :is="ite.meta.icon"/>&ndash;&gt;-->
+      <!--          &lt;!&ndash;              </el-icon>&ndash;&gt;-->
+      <!--          &lt;!&ndash;              <span>{{ ite.meta.title }}</span>&ndash;&gt;-->
+      <!--          &lt;!&ndash;            </template>&ndash;&gt;-->
+      <!--          &lt;!&ndash;          </el-menu-item>&ndash;&gt;-->
+      <!--        </el-sub-menu>-->
+      <!--        <el-menu-item v-else :index="item.path">-->
+      <!--          <el-icon>-->
+      <!--            <component :is="item.meta.icon"/>-->
+      <!--          </el-icon>-->
+      <!--          <template #title>{{ item.meta.title }}</template>-->
+      <!--        </el-menu-item>-->
+      <!--      </template>-->
     </el-menu>
   </div>
 </template>
@@ -91,6 +79,7 @@ const defaultActive = ref(route.path)
   overflow-x: hidden;
   @apply shadow-md fixed bg-light-50;
 }
+
 .menu::-webkit-scrollbar {
   width: 1px;
 }
