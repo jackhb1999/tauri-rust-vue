@@ -3,7 +3,7 @@
 import {useRoute, useRouter} from "vue-router";
 import {useAsideWidthStore} from "@/store/asideWidth.ts";
 import {ref} from "vue";
-import MenuItem from "@/layouts/components/menu/index.vue";
+import MenuItem from "@/layouts/components/menuItem/index.vue";
 
 const router = useRouter();
 const asideWidthStore = useAsideWidthStore()
@@ -35,35 +35,6 @@ export default {
              :collapse-transition="false"
     >
       <MenuItem :menuList="asideMenus"/>
-      <!--      <template v-for="(item,index) in asideMenus" :key="index">-->
-
-      <!--        <el-sub-menu v-if="item.children && item.children.length > 0"-->
-      <!--                     :index="index">-->
-      <!--          <template #title>-->
-      <!--            <el-icon>-->
-      <!--              <component :is="item.meta.icon"/>-->
-      <!--            </el-icon>-->
-      <!--            <span>{{ item.meta.title }}</span>-->
-      <!--          </template>-->
-      <!--          <MenuItem :menuList="item.children"/>-->
-      <!--          &lt;!&ndash;          <el-menu-item&ndash;&gt;-->
-      <!--          &lt;!&ndash;              v-for="(ite,ind) in item.children" :key="ind"&ndash;&gt;-->
-      <!--          &lt;!&ndash;              :index="ite.path">&ndash;&gt;-->
-      <!--          &lt;!&ndash;            <template #title>&ndash;&gt;-->
-      <!--          &lt;!&ndash;              <el-icon>&ndash;&gt;-->
-      <!--          &lt;!&ndash;                <component :is="ite.meta.icon"/>&ndash;&gt;-->
-      <!--          &lt;!&ndash;              </el-icon>&ndash;&gt;-->
-      <!--          &lt;!&ndash;              <span>{{ ite.meta.title }}</span>&ndash;&gt;-->
-      <!--          &lt;!&ndash;            </template>&ndash;&gt;-->
-      <!--          &lt;!&ndash;          </el-menu-item>&ndash;&gt;-->
-      <!--        </el-sub-menu>-->
-      <!--        <el-menu-item v-else :index="item.path">-->
-      <!--          <el-icon>-->
-      <!--            <component :is="item.meta.icon"/>-->
-      <!--          </el-icon>-->
-      <!--          <template #title>{{ item.meta.title }}</template>-->
-      <!--        </el-menu-item>-->
-      <!--      </template>-->
     </el-menu>
   </div>
 </template>
