@@ -13,7 +13,7 @@ export default {
 <template>
   <template v-for="(item,index) in menuList" :key="index">
     <!--        有子路由-->
-    <el-sub-menu v-if="item.children && item.children.length > 0"
+    <el-sub-menu v-if="item.children && item.children.length > 0 && !(item.meta.hidden === true)"
                  :index="item.path">
       <template #title>
         <el-icon>
@@ -24,7 +24,7 @@ export default {
       <MenuItem :menuList="item.children"/>
     </el-sub-menu>
     <!--        无子路由-->
-    <el-menu-item v-else :index="item.path">
+    <el-menu-item v-else v-show="!(item.meta.hidden === true)" :index="item.path">
       <el-icon>
         <component :is="item.meta.icon"/>
       </el-icon>

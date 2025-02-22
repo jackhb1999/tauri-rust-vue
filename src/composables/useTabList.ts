@@ -12,9 +12,8 @@ export function useTabList() {
     const tabList = ref([
         {
             title: '后台首页',
-            path: '/'
+            path: '/app'
         },
-
     ])
 
     onMounted(() => {
@@ -41,7 +40,7 @@ export function useTabList() {
 
     })
 
-    const changeTab = (path:string) => {
+    const changeTab = (path: string) => {
         console.log(44, path)
         activeTab.value = path
         router.push(path)
@@ -68,13 +67,13 @@ export function useTabList() {
 
     const closeHandle = (command: string) => {
         if (command === 'closeOther') {
-            tabList.value = tabList.value.filter(item => item.path === activeTab.value || item.path === '/')
+            tabList.value = tabList.value.filter(item => item.path === activeTab.value || item.path === '/app')
             // cookie.set('tabList', tabList.value)
         } else if (command === 'closeAll') {
-            activeTab.value = '/'
+            activeTab.value = '/app'
             tabList.value = [{
                 title: '后台首页',
-                path: '/'
+                path: '/app'
             }]
             // cookie.set('tabList', tabList.value)
         }

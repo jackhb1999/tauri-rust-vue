@@ -45,7 +45,7 @@ const onSubmit = () => {
         store.setInfo(res)
 
         // 跳转页面
-        router.push('/')
+        router.push('/app')
       }).catch(err => {
         toastByFail('网络连接错误')
       }).finally(() => {

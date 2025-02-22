@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {confirm, toastBySuccess} from "@/composables/util.ts"
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {useUserInfoStore} from "@/store/userinfo.ts";
 import {useFullscreen} from '@vueuse/core'
 import {Crop, Expand, FullScreen,} from "@element-plus/icons-vue";
@@ -26,6 +26,8 @@ const {
 const userStore = useUserInfoStore()
 const router = useRouter()
 const asideWidthStore = useAsideWidthStore()
+
+const route = useRoute()
 
 function logout() {
   confirm("是否退出登录").then(() => {
@@ -84,6 +86,15 @@ const foldHandle = () => {
         <Expand v-else/>
       </el-icon>
     </el-tooltip>
+
+    <!--    面包屑-->
+    <el-breadcrumb class="breadcrumb" separator-icon="ArrowRight">
+      <el-breadcrumb-item v-for="(item,index) in route.matched" :key="index" v-show="item.meta.title">{{
+          item.meta.title
+        }}
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-tooltip
         effect="dark"
         content="刷新"
@@ -93,6 +104,7 @@ const foldHandle = () => {
         <Refresh/>
       </el-icon>
     </el-tooltip>
+
     <div class="ml-auto flex items-center">
       <el-tooltip v-if="false"
                   effect="dark"
@@ -107,7 +119,7 @@ const foldHandle = () => {
       <el-dropdown class="dropdown" @command="commandHandle">
     <span class="flex items-center text-light-50">
         <el-avatar class="mr-2" :size="25" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
-      {{userStore.userInfo.username}}
+      {{ userStore.userInfo.username }}
       <el-icon class="el-icon--right">
         <arrow-down/>
       </el-icon>
@@ -128,7 +140,7 @@ const foldHandle = () => {
   <form-drawer ref="formDrawerRef" title="修改密码" destroy-on-close @submit="onSubmit">
     <el-form ref="formRef" :model="pws" :rules="rules" class="w-[250px]"
              label-width="80px" size="small">
-      <el-form-item  label="登录账号">
+      <el-form-item label="登录账号">
         <el-input v-model="userStore.userInfo.user_code" :disabled="true">
 
         </el-input>
@@ -178,4 +190,20 @@ const foldHandle = () => {
   cursor: pointer;
   @apply flex justify-center items-center mx-5 max-h-11;
 }
+
+.breadcrumb {
+  @apply flex  justify-center items-center mx-5 max-h-11;
+  color: black;
+
+}
+
+:deep(.el-breadcrumb__inner) {
+  color: rebeccapurple !important;
+}
+
+:deep( .el-breadcrumb__separator) {
+  color: rebeccapurple !important;
+}
+
+
 </style>

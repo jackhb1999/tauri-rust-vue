@@ -9,13 +9,24 @@ import {routes} from "@/router/routes.ts";
 // 动态路由，用于匹配菜单动态添加路由
 const asyncRoutes: Array<RouteRecordRaw> = [
     {
-        path: '/goods/list',
-        name: '/goods/list',
-        component: GoodsList,
+        path: '/goods',
+        name: '/goods',
+
         meta: {
             title: "商品管理",
             icon: "home-filled"
-        }
+        },
+        children: [
+            {
+                path: '/goods/list',
+                name: '/goods/list',
+                component: GoodsList,
+                meta: {
+                    title: "商品列表",
+                    icon: "home-filled"
+                }
+            }
+        ]
     },
     {
         path: '/category/list',
@@ -53,16 +64,16 @@ export function addRoutes(menus) {
     //     })
     // }
     // findAndRoutes(menus)
-    router.addRoute("admin", {
-        path: '/goods/list',
-        name: '/goods/list',
-        component: GoodsList,
-        meta: {
-            title: "商品管理",
-            icon: "home-filled"
-        }
-    })
-    router.addRoute("admin", asyncRoutes[1])
+    // router.addRoute("admin", {
+    //     path: '/goods/list',
+    //     name: '/goods/list',
+    //     component: GoodsList,
+    //     meta: {
+    //         title: "商品管理",
+    //         icon: "home-filled"
+    //     }
+    // })
+    // router.addRoute("admin", asyncRoutes[1])
     console.log(184, router.getRoutes())
     return hasNewRouter
 }

@@ -6,7 +6,6 @@ console.log(5, import.meta.env)
 </script>
 
 <template>
-  {{ $route.fullPath }}
   <RouterView/>
 </template>
 

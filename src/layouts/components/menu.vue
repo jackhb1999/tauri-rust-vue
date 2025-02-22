@@ -9,7 +9,7 @@ const router = useRouter();
 const asideWidthStore = useAsideWidthStore()
 const route = useRoute()
 
-const asideMenus = router.getRoutes()
+const asideMenus = router.getRoutes().find(item => item.path === '/')?.children
 // .find(item => item.path === '/app')?.children
 
 const handleSelect = (path: string) => router.push(path)
