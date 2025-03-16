@@ -9,7 +9,8 @@
     "build:test": "vue-tsc --noEmit && vite build --mode test",
     "build:pro": "vue-tsc --noEmit && vite build --mode production",
     "preview": "vite preview",
-    "tauri": "tauri dev"
+    "tauri": "tauri dev",
+    "package": "tauri build"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

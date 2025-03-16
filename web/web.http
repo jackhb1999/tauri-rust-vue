@@ -1,0 +1,40 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=RustRover
+
+###
+
+GET localhost:3000/
+
+
+###
+POST localhost:3000/users
+Content-Type: application/json
+
+{
+  "username": "John Doe"
+}
+
+###
+POST localhost:3000/users2
+Content-Type: application/json
+
+{
+  "username": "fan"
+}
+
+###
+
+GET localhost:3000/test/12
+
+
+###
+
+POST localhost:3000/testquery
+    ?name=John&age=20
+
+###
+
+POST localhost:3000/testfile
+Content-Type: multipart/form-data;
+file: output.txt

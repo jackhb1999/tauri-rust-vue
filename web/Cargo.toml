@@ -2,9 +2,25 @@
 name = "web"
 version = "0.1.0"
 edition = "2021"
+description = "学习使用AXUM进行web开发"
 
 [dependencies]
-axum="0.8.1"
+axum = { version = "0.8.1", features = ["json", "macros", "multipart"] }
+
+axum-macros = "0.5.0"
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tower = { version = "0.4", features = ["util", "filter"] }
+#hyper = { version = "0.14", features = ["full"] }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+
+
+
+
 #tokio = { version = "1", features = ["macros","rt-multi-thread"] }
 
 tokio = { workspace = true, features = ["full"] }
@@ -13,3 +29,6 @@ tokio = { workspace = true, features = ["full"] }
 #libp2p = { path = "../../libp2p", features = [ "tokio", "gossipsub", "mdns", "noise", "macros", "tcp", "yamux", "quic"] }
 #tracing = { workspace = true }
 #tracing-subscriber = { workspace = true, features = ["env-filter"] }
+
+# 用于sql连接依赖 需要顶层 sqlite3.dll 和 sqlite3.lib
+rusqlite = "0.32.1"
