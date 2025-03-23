@@ -38,3 +38,7 @@ POST localhost:3000/testquery
 POST localhost:3000/testfile
 Content-Type: multipart/form-data;
 file: output.txt
+
+###
+
+GET localhost:3000/useState
